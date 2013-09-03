@@ -1,0 +1,59 @@
+Artifact removal algorithm for EEG and EMG recorded during fMRI acquisition
+
+ Copyright (c) 2010, 2011 Johann Glaser <Johann.Glaser@gmx.at>
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, 
+MA  02110-1301, USA.
+
+Description
+-----------
+This package contains an algorithm to process EEG and EMG recordings which
+were impaired by artifacts from a concurrent fMRI acquisition.
+
+The algorithm is based on the EEGLAB plugin by Rami K. Niazy, FMRIB Centre,
+University of Oxford.
+
+The original EEGLAB plugin was completely rewritten with a clearer
+structure, object oriented programming paradigm, expressive identifiers and
+lots of speed improvements. The main improvement are extensions of
+usability and features.
+
+Files
+-----
+  CleanEx1.m           example 1 to clean a EEG signal, uses Naizy's data
+  CleanEx2.m           example 2 to clean a EEG signal, uses Fischi's data
+  CleanEx3.m           example 3 to clean a EEG signal, uses data from Aachen
+  +FACET/              Matlab package
+  +FACET/@FACET/       Matlab base class of correction algorithm
+  +FACET/@Eval/        Matlab base class of evaluation algorithm
+  COPYING              GPL 2.0 Copyright information
+
+Usage
+-----
+To perform the algorithm with the example scripts use e.g.
+  cleaned = CleanEx1(EEG_FMRIB);
+To get identical results for consecutive runs, don't forget to seed the
+random number generator with identical values, e.g.
+  rand('seed',0), cleaned = CleanEx1(EEG_FMRIB);
+
+For the evaluation of the correction results use e.g.
+  e=FACET.EvalPrintText(FACET.Eval(EEG_FMRIB,cleaned,21,[1:30]).eval()).print();
+for the FMRIB dataset.
+
+To evaluate the data from Fischi use e.g.
+  e=FACET.EvalPrintText(FACET.Eval(EEG_Fischi,cleaned,[1:13,16:22],27073,29000,639126,648987,0.5000,12.5000).eval()).print();
+
+To evaluate the data from Aachen (processed with CleanEx3.m) use e.g.
+  e=FACET.EvalPrintText(FACET.Eval(EEG_Aachen,cleaned,[1:31],35500,36500,3755500,3756000,0.5000,16.5000).eval()).print();
